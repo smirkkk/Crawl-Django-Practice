@@ -13,4 +13,4 @@ for x in range(17):
     titles = html.xpath('//*[@id="mArticle"]/div/div[3]/div/table/thead/tr/th[{}]'.format(x))
     values = html.xpath('//*[@id="mArticle"]/div/div[3]/div/table/tbody/tr/td[{}]'.format(x))
     if titles:
-        print(x, titles[0].text, values[0].text)
+        print(x, titles[0].text, values[0].text.strip())
