@@ -1,6 +1,8 @@
 import pymysql
 
-tmp = pymysql.connect(host='localhost', user='testt', password='', db='test', charset='utf8')
+tmp = pymysql.connect(host='localhost', user='root', password='', db='sports', charset='utf8')
+
+
 record = {'game':'144', 'avg':'0.999', 'rbi':'1222'}
 curs = tmp.cursor()
 
@@ -14,13 +16,13 @@ print(sql)
 curs.execute(sql)
 
 #삽입
-sql = "INSERT INTO `test`.`season_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+sql = "INSERT INTO `sports`.`season_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
 print(sql)
 curs.execute(sql)
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('season_record')
+sql = 'select * from `sports`.`{}`'.format('season_record')
 print(sql)
 curs.execute(sql)
 
@@ -39,13 +41,13 @@ print(sql)
 curs.execute(sql)
 
 #삽입
-sql = "INSERT INTO `test`.`total_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+sql = "INSERT INTO `sports`.`total_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
 print(sql)
 curs.execute(sql)
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('total_record')
+sql = 'select * from `sports`.`{}`'.format('total_record')
 print(sql)
 curs.execute(sql)
 
@@ -64,14 +66,14 @@ date = 1.1
 #삽입
 #3일 동안의 기록
 for x in range(3):
-    sql = "INSERT INTO `test`.`daily_record` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
+    sql = "INSERT INTO `sports`.`daily_record` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
     print(sql)
     curs.execute(sql)
     date = date+1
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('daily_record')
+sql = 'select * from `sports`.`{}`'.format('daily_record')
 print(sql)
 curs.execute(sql)
 
