@@ -1,4 +1,4 @@
-CREATE TABLE `table3` (
+CREATE TABLE `daily_record` (
 	`date` DOUBLE NULL DEFAULT NULL,
 	`game` INT(11) NULL DEFAULT NULL
 )

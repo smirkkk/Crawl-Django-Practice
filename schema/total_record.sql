@@ -1,4 +1,4 @@
-CREATE TABLE `table2` (
+CREATE TABLE `total_record` (
 	`game` INT(11) NULL DEFAULT NULL,
 	`avg` DOUBLE NULL DEFAULT NULL,
 	`rbi` INT(11) NULL DEFAULT NULL
