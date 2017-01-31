@@ -1,0 +1,11 @@
+import pymysql
+
+tmp = pymysql.connect(host='localhost', user='testt', password='', db='test', charset='utf8')
+
+a = tmp.cursor()
+
+sql = 'select * from `test`.`table`'
+a.execute(sql)
+
+rows = a.fetchall()
+print(rows)
