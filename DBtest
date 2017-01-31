@@ -9,18 +9,18 @@ curs = tmp.cursor()
 #시즌 기록의 테이블을 비운 후, 최신 정보를 삽입
 
 #비우기
-sql = 'TRUNCATE `table`'
+sql = 'TRUNCATE `season_record`'
 print(sql)
 curs.execute(sql)
 
 #삽입
-sql = "INSERT INTO `test`.`table` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+sql = "INSERT INTO `test`.`season_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
 print(sql)
 curs.execute(sql)
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('table')
+sql = 'select * from `test`.`{}`'.format('season_record')
 print(sql)
 curs.execute(sql)
 
@@ -34,18 +34,18 @@ print('---------')
 #시즌 기록과 동일함.
 
 #비우기
-sql = 'TRUNCATE `table2`'
+sql = 'TRUNCATE `total_record`'
 print(sql)
 curs.execute(sql)
 
 #삽입
-sql = "INSERT INTO `test`.`table2` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+sql = "INSERT INTO `test`.`total_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
 print(sql)
 curs.execute(sql)
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('table2')
+sql = 'select * from `test`.`{}`'.format('total_record')
 print(sql)
 curs.execute(sql)
 
@@ -64,14 +64,14 @@ date = 1.1
 #삽입
 #3일 동안의 기록
 for x in range(3):
-    sql = "INSERT INTO `test`.`table3` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
+    sql = "INSERT INTO `test`.`daily_record` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
     print(sql)
     curs.execute(sql)
     date = date+1
 tmp.commit()
 
 #테이블 내용 출력
-sql = 'select * from `test`.`{}`'.format('table3')
+sql = 'select * from `test`.`{}`'.format('daily_record')
 print(sql)
 curs.execute(sql)
 
