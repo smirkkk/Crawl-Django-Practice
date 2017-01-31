@@ -1,9 +1,7 @@
 import pymysql
 
 tmp = pymysql.connect(host='localhost', user='testt', password='', db='test', charset='utf8')
-
 record = {'game':'144', 'avg':'0.999', 'rbi':'1222'}
-
 curs = tmp.cursor()
 
 
