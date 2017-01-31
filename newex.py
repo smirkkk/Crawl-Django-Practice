@@ -11,8 +11,6 @@ html2 = etree.HTML(respose.text)
 season_data = {}
 total_data = {}
 profile = {}
-team = {}
-team_data = {}
 
 # 단순 17 이라 고 해서 반복으로 추출 하기 보다는 그냥 0,1,2 ~ 16 해도 상관 없음
 # 이 데이터들을 DB 적재 하기 좋은 방법을 생각 해보기
@@ -46,14 +44,6 @@ for x in range(3, 19):
     value = html2.xpath('//*[@id="mArticle"]/div/div[3]/div/table/tfoot/tr/td[{}]'.format(x))
 
     total_data[title[0].text] = value[0].text.strip()
-
-#팀별 기록
-for x in range(1, 9):
-    title = html.xpath('//*[@id="mArticle"]/div/div[3]/div/table[2]/tbody/tr[{}]/td[1]'.format(x))
-    print(title)
-    #선생님.. 이러면 넥센부터 kt까지 다른 구단들 이름이 출력되어야 하는데 아무것도 출력이 안돼요...
-
-
 
 
 print(season_data)
