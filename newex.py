@@ -90,9 +90,23 @@ def db_total():
 
 # 일일 기록 DB 삽입
 def db_daily():
-    sql = "INSERT INTO `sports`.`daily_record` (`날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(daily_data['날짜'],daily_data['상대'], daily_data['타석'], daily_data['타수'], daily_data['안타'], daily_data['2타'], daily_data['3타'], daily_data['홈런'], daily_data['타점'], daily_data['득점'], daily_data['도루'], daily_data['사사구'], daily_data['삼진'], daily_data['타율'], daily_data['출루율'], daily_data['장타율'], daily_data['OPS'])
+    sql = 'select * from `sports`.`{}`'.format('daily_record')
     curs.execute(sql)
-    tmp.commit()
+    rows = curs.fetchall()
+    if len(rows) == 0:
+        sql = "INSERT INTO `sports`.`daily_record` (`날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
+            daily_data['날짜'], daily_data['상대'], daily_data['타석'], daily_data['타수'], daily_data['안타'], daily_data['2타'],
+            daily_data['3타'], daily_data['홈런'], daily_data['타점'], daily_data['득점'], daily_data['도루'], daily_data['사사구'],
+            daily_data['삼진'], daily_data['타율'], daily_data['출루율'], daily_data['장타율'], daily_data['OPS'])
+        curs.execute(sql)
+        tmp.commit()
+
+    elif str(rows[len(rows)-1][0]) == daily_data['날짜']:
+        return
+    else:
+        sql = "INSERT INTO `sports`.`daily_record` (`날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(daily_data['날짜'],daily_data['상대'], daily_data['타석'], daily_data['타수'], daily_data['안타'], daily_data['2타'], daily_data['3타'], daily_data['홈런'], daily_data['타점'], daily_data['득점'], daily_data['도루'], daily_data['사사구'], daily_data['삼진'], daily_data['타율'], daily_data['출루율'], daily_data['장타율'], daily_data['OPS'])
+        curs.execute(sql)
+        tmp.commit()
 
 
 if __name__ == '__main__':
