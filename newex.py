@@ -13,7 +13,7 @@ url2 = 'http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_rechis
 respose = requests.get(url2)
 html2 = etree.HTML(respose.text)
 
-url3 = 'http://m.sports.naver.com/player/index.nhn?from=nx&tab=record&playerId=62947&category=kbo'
+url3 = 'http://www.koreabaseball.com/Record/Player/HitterDetail/Situation.aspx?playerId=62947'
 respose = requests.get(url3)
 html3 = etree.HTML(respose.text)
 
