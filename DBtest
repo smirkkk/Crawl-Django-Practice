@@ -7,75 +7,80 @@ record = {'game':'144', 'avg':'0.999', 'rbi':'1222'}
 curs = tmp.cursor()
 
 
-#시즌 기록
-#시즌 기록의 테이블을 비운 후, 최신 정보를 삽입
+def sex():
+    # 시즌 기록
+    # 시즌 기록의 테이블을 비운 후, 최신 정보를 삽입
 
-#비우기
-sql = 'TRUNCATE `season_record`'
-print(sql)
-curs.execute(sql)
-
-#삽입
-sql = "INSERT INTO `sports`.`season_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
-print(sql)
-curs.execute(sql)
-tmp.commit()
-
-#테이블 내용 출력
-sql = 'select * from `sports`.`{}`'.format('season_record')
-print(sql)
-curs.execute(sql)
-
-rows = curs.fetchall()
-print(rows)
-
-print('---------')
-
-
-#통산기록
-#시즌 기록과 동일함.
-
-#비우기
-sql = 'TRUNCATE `total_record`'
-print(sql)
-curs.execute(sql)
-
-#삽입
-sql = "INSERT INTO `sports`.`total_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
-print(sql)
-curs.execute(sql)
-tmp.commit()
-
-#테이블 내용 출력
-sql = 'select * from `sports`.`{}`'.format('total_record')
-print(sql)
-curs.execute(sql)
-
-rows = curs.fetchall()
-print(rows)
-
-print('---------')
-
-
-#일일 기록
-#비울 필요 없고, 매일마다 한 행씩 추가한다.
-
-#날짜 (예시)
-date = 1.1
-
-#삽입
-#3일 동안의 기록
-for x in range(3):
-    sql = "INSERT INTO `sports`.`daily_record` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
+    # 비우기
+    sql = 'TRUNCATE `season_record`'
     print(sql)
     curs.execute(sql)
-    date = date+1
-tmp.commit()
 
-#테이블 내용 출력
-sql = 'select * from `sports`.`{}`'.format('daily_record')
-print(sql)
-curs.execute(sql)
+    # 삽입
+    sql = "INSERT INTO `sports`.`season_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+    print(sql)
+    curs.execute(sql)
+    tmp.commit()
 
-rows = curs.fetchall()
-print(rows)
+    # 테이블 내용 출력
+    sql = 'select * from `sports`.`{}`'.format('season_record')
+    print(sql)
+    curs.execute(sql)
+
+    rows = curs.fetchall()
+    print(rows)
+
+    print('---------')
+
+
+    #통산기록
+    #시즌 기록과 동일함.
+
+    #비우기
+    sql = 'TRUNCATE `total_record`'
+    print(sql)
+    curs.execute(sql)
+
+    #삽입
+    sql = "INSERT INTO `sports`.`total_record` (`game`, `avg`, `rbi`) VALUES ('{}', '{}', '{}')".format(record['game'], record['avg'], record['rbi'])
+    print(sql)
+    curs.execute(sql)
+    tmp.commit()
+
+    #테이블 내용 출력
+    sql = 'select * from `sports`.`{}`'.format('total_record')
+    print(sql)
+    curs.execute(sql)
+
+    rows = curs.fetchall()
+    print(rows)
+
+    print('---------')
+
+
+    #일일 기록
+    #비울 필요 없고, 매일마다 한 행씩 추가한다.
+
+    #날짜 (예시)
+    date = 1.1
+
+    #삽입
+    #3일 동안의 기록
+    for x in range(3):
+        sql = "INSERT INTO `sports`.`daily_record` (`date`, `game`) VALUES ('{}', '{}')".format(date, record['game'])
+        print(sql)
+        curs.execute(sql)
+        date = date+1
+    tmp.commit()
+
+    #테이블 내용 출력
+    sql = 'select * from `sports`.`{}`'.format('daily_record')
+    print(sql)
+    curs.execute(sql)
+
+    rows = curs.fetchall()
+    print(rows)
+
+
+if __name__ == '__main__':
+    sex()
