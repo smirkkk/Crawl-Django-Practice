@@ -13,6 +13,11 @@ url2 = 'http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_rechis
 respose = requests.get(url2)
 html2 = etree.HTML(respose.text)
 
+url3 = 'http://m.sports.naver.com/player/index.nhn?from=nx&tab=record&playerId=62947&category=kbo'
+respose = requests.get(url3)
+html3 = etree.HTML(respose.text)
+
+
 season_data = {}
 total_data = {}
 daily_data = {}
@@ -109,7 +114,14 @@ def db_daily():
         tmp.commit()
 
 
+def abcd():
+    a = html3.xpath('//*[@id="_chartWrap"]/ul/li[1]/div/div[4]/span')
+    print(a)
+
+
 if __name__ == '__main__':
+    abcd()
+
     crawl_profile()
     crawl_season()
     crawl_total()
