@@ -75,11 +75,14 @@ def db_season():
 
 # 프로필 DB 삽입
 def db_profile():
+
     sql = 'TRUNCATE `profile`'
     curs.execute(sql)
 
-    sql = "INSERT INTO `sports`.`profile` (`데뷔`, `출생`, `포지션`, `신체`) VALUES ('{}', '{}', '{}', '{}')".format(profile['데뷔'], profile['출생'], profile['포지션'], profile['신체'])
-    curs.execute(sql)
+    sql = """
+    INSERT INTO `sports`.`profile` (`데뷔`, `출생`, `포지션`, `신체`) VALUES (%(데뷔)s, %(출생)s, %(포지션)s, %(신체)s)
+    """
+    curs.execute(query=sql, args={'데뷔': profile['데뷔'], '출생': profile['출생'], '포지션': profile['포지션'], '신체': profile['신체']})
     tmp.commit()
 
 
@@ -88,8 +91,10 @@ def db_total():
     sql = 'TRUNCATE `total_record`'
     curs.execute(sql)
 
-    sql = "INSERT INTO `sports`.`total_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(total_data['경기'], total_data['타석'], total_data['타수'], total_data['안타'], total_data['2타'], total_data['3타'], total_data['홈런'], total_data['타점'], total_data['득점'], total_data['도루'], total_data['사사구'], total_data['삼진'], total_data['타율'], total_data['출루율'], total_data['장타율'], total_data['OPS'])
-    curs.execute(sql)
+    sql ="""
+    INSERT INTO `sports`.`total_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS`) VALUES (%(경기)s, %(타석)s, %(타수)s, %(안타)s, %(2타)s, %(2타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)"
+    """
+    curs.execute(query=sql, args={'경기': total_data['경기'], '타석': total_data['타석'], '타수': total_data['타수'], '안타': total_data['안타'], '2루타': total_data['2타'], '3루타': total_data['3타'], '홈런':total_data['홈런'], '타점':total_data['타점'], '득점':total_data['득점'], '도루':total_data['도루'], '사사구':total_data['사사구'], '삼진':total_data['삼진'], '타율':total_data['타율'], '출루율':total_data['출루율'], '장타율':total_data['장타율'], 'OPS':total_data['OPS']})
     tmp.commit()
 
 
@@ -122,17 +127,20 @@ def abcd():
 if __name__ == '__main__':
     abcd()
 
+
     crawl_profile()
     crawl_season()
     crawl_total()
     crawl_daily()
+
+    print(season_data)
+    print(profile)
+    print(total_data)
+    print(daily_data)
 
     db_season()
     db_profile()
     db_total()
     db_daily()
 
-    print(season_data)
-    print(profile)
-    print(total_data)
-    print(daily_data)
+
