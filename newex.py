@@ -21,11 +21,11 @@ class basic():
     park = ['http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_main.daum?person_id=778528',
             'http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_rechist.daum?person_id=778528']
 
-    url = na[0]
+    url = park[0]
     respose = requests.get(url)
     html = etree.HTML(respose.text)
 
-    url2 = na[1]
+    url2 = park[1]
     respose = requests.get(url2)
     html2 = etree.HTML(respose.text)
 
@@ -90,14 +90,12 @@ class basic():
 
     # 시즌 기록 DB 삽입
     def db_season(self):
-        print(key['key'])
 
         sql = 'select * from `sports`.`season_record`'
         curs.execute(sql)
         rows = curs.fetchall()
 
         if len(rows) == 0:
-            print('Vim')
             sql = """
             INSERT INTO `sports`.`season_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(경기)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
             """
@@ -111,7 +109,6 @@ class basic():
 
         else:
             for x in range(len(rows)):
-                print(x, key['key'], rows[x][0])
                 if key['key'] == rows[x][0]:
                     #이미있음
                     #추가 x 수정 o
@@ -129,12 +126,8 @@ class basic():
                                        'OPS': season_data['OPS'], 'No': key['key']})
 
                     tmp.commit()
-
-                    print('수정')
-
                     return
 
-        print('추가')
         sql = """
                     INSERT INTO `sports`.`season_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(경기)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
                     """
@@ -160,16 +153,18 @@ class basic():
 
     # 일일 기록 DB 삽입
     def db_daily(self):
+        print('key:', key['key'])
         sql = 'select * from `sports`.`daily_record`'
         curs.execute(sql)
         rows = curs.fetchall()
+
         if len(rows) == 0:
             sql = """
-            INSERT INTO `sports`.`daily_record` (`날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(날짜)s, %(상대)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
+            INSERT INTO `sports`.`daily_record` (`No`, `날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(No)s, %(날짜)s, %(상대)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
             """
 
             curs.execute(query=sql,
-                         args={'날짜': daily_data['날짜'], '상대': daily_data['상대'], '타석': daily_data['타석'], '타수': daily_data['타수'],
+                         args={'No': key['key'], '날짜': daily_data['날짜'], '상대': daily_data['상대'], '타석': daily_data['타석'], '타수': daily_data['타수'],
                                '안타': daily_data['안타'], '2루타': daily_data['2타'], '3루타': daily_data['3타'],
                                '홈런': daily_data['홈런'], '타점': daily_data['타점'], '득점': daily_data['득점'],
                                '도루': daily_data['도루'], '사사구': daily_data['사사구'], '삼진': daily_data['삼진'],
@@ -178,15 +173,17 @@ class basic():
 
             tmp.commit()
 
-        elif str(rows[len(rows)-1][0]) == daily_data['날짜']:
+            return
+
+        elif rows[len(rows)-1][0] == key['key'] and str(rows[len(rows)-1][1]) == str(daily_data['날짜']):
             return
         else:
             sql = """
-            INSERT INTO `sports`.`daily_record` (`날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(날짜)s, %(상대)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
+            INSERT INTO `sports`.`daily_record` (`No`, `날짜`, `상대`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(No)s, %(날짜)s, %(상대)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
             """
 
             curs.execute(query=sql,
-                         args={'날짜': daily_data['날짜'], '상대': daily_data['상대'], '타석': daily_data['타석'], '타수': daily_data['타수'],
+                         args={'No': key['key'], '날짜': daily_data['날짜'], '상대': daily_data['상대'], '타석': daily_data['타석'], '타수': daily_data['타수'],
                                '안타': daily_data['안타'], '2루타': daily_data['2타'], '3루타': daily_data['3타'],
                                '홈런': daily_data['홈런'], '타점': daily_data['타점'], '득점': daily_data['득점'],
                                '도루': daily_data['도루'], '사사구': daily_data['사사구'], '삼진': daily_data['삼진'],
@@ -204,16 +201,55 @@ class basic():
 
     # 통산 기록 DB 삽입
     def db_total(self):
-        sql = 'TRUNCATE `total_record`'
+        sql = 'select * from `sports`.`total_record`'
         curs.execute(sql)
+        rows = curs.fetchall()
 
+        if len(rows) == 0:
+            sql = """
+            INSERT INTO `sports`.`total_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(경기)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
+            """
+
+            curs.execute(query=sql,
+                         args={'경기': total_data['경기'], '타석': total_data['타석'], '타수': total_data['타수'],
+                               '안타': total_data['안타'], '2루타': total_data['2타'], '3루타': total_data['3타'],
+                               '홈런': total_data['홈런'], '타점': total_data['타점'], '득점': total_data['득점'],
+                               '도루': total_data['도루'], '사사구': total_data['사사구'], '삼진': total_data['삼진'],
+                               '타율': total_data['타율'], '출루율': total_data['출루율'], '장타율': total_data['장타율'],
+                               'OPS': total_data['OPS']})
+
+            tmp.commit()
+
+            return
+
+        else:
+            for x in range(len(rows)):
+                if key['key'] == rows[x][0]:
+                    sql = """
+                    UPDATE `sports`.`total_record` SET `경기` = %(경기)s, `타석` = %(타석)s, `타수` = %(타수)s, `안타` = %(안타)s, `2루타` = %(2루타)s, `3루타` = %(3루타)s, `홈런` = %(홈런)s, `타점` = %(타점)s, `득점` = %(득점)s, `도루` = %(도루)s, `사사구` = %(사사구)s, `삼진` = %(삼진)s, `타율` = %(타율)s, `출루율` = %(출루율)s, `장타율` = %(장타율)s, `OPS` = %(OPS)s WHERE `No` =%(No)s
+                    """
+
+                    curs.execute(query=sql,
+                                 args={'경기': total_data['경기'], '타석': total_data['타석'], '타수': total_data['타수'],
+                                       '안타': total_data['안타'], '2루타': total_data['2타'], '3루타': total_data['3타'],
+                                       '홈런': total_data['홈런'], '타점': total_data['타점'], '득점': total_data['득점'],
+                                       '도루': total_data['도루'], '사사구': total_data['사사구'], '삼진': total_data['삼진'],
+                                       '타율': total_data['타율'], '출루율': total_data['출루율'], '장타율': total_data['장타율'],
+                                       'OPS': total_data['OPS'], 'No': key['key']})
+
+                    tmp.commit()
+                    return
 
         sql = """
         INSERT INTO `sports`.`total_record` (`경기`, `타석`, `타수`, `안타`, `2루타`, `3루타`, `홈런`, `타점`, `득점`, `도루`, `사사구`, `삼진`, `타율`, `출루율`, `장타율`, `OPS` ) VALUES (%(경기)s, %(타석)s, %(타수)s, %(안타)s, %(2루타)s, %(3루타)s, %(홈런)s, %(타점)s, %(득점)s, %(도루)s, %(사사구)s, %(삼진)s, %(타율)s, %(출루율)s, %(장타율)s, %(OPS)s)
         """
 
         curs.execute(query=sql,
-                     args={'경기': total_data['경기'], '타석': total_data['타석'], '타수': total_data['타수'], '안타': total_data['안타'], '2루타': total_data['2타'], '3루타': total_data['3타'], '홈런': total_data['홈런'], '타점': total_data['타점'], '득점': total_data['득점'], '도루': total_data['도루'], '사사구': total_data['사사구'], '삼진': total_data['삼진'], '타율': total_data['타율'], '출루율': total_data['출루율'], '장타율': total_data['장타율'], 'OPS': total_data['OPS']})
+                     args={'경기': total_data['경기'], '타석': total_data['타석'], '타수': total_data['타수'], '안타': total_data['안타'],
+                           '2루타': total_data['2타'], '3루타': total_data['3타'], '홈런': total_data['홈런'], '타점': total_data['타점'],
+                           '득점': total_data['득점'], '도루': total_data['도루'], '사사구': total_data['사사구'], '삼진': total_data['삼진'],
+                           '타율': total_data['타율'], '출루율': total_data['출루율'], '장타율': total_data['장타율'],
+                           'OPS': total_data['OPS']})
 
         tmp.commit()
 
