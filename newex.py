@@ -14,7 +14,6 @@ profile = {}
 
 
 class basic():
-
     na = ['http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_main.daum?person_id=778542',
           'http://score.sports.media.daum.net/record/baseball/kbo/plrinf_bat_rechist.daum?person_id=778542']
 
@@ -265,8 +264,3 @@ if __name__ == '__main__':
     a.db_daily()
     a.db_season()
     a.db_total()
-
-    print(season_data)
-    print(profile)
-    print(total_data)
-    print(daily_data)
